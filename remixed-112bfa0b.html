@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>firstprinciples · team</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+
+<style>
+/* ─── reset ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+/* ─── tokens ─── */
+:root {
+  --parchment:    #f5f2ec;
+  --ink:          #1a1714;
+  --ink-mid:      #6b6560;
+  --ink-faint:    #c4bfb8;
+  --rule:         #dedad3;
+  --accent:       #1a1714;
+  --serif:        'Cormorant Garamond', Georgia, serif;
+  --sans:         'DM Sans', system-ui, sans-serif;
+  --max:          1160px;
+  --pad:          clamp(24px, 5vw, 80px);
+}
+
+body {
+  background: var(--parchment);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ─── grain overlay ─── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.6;
+}
+
+/* ─── nav ─── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 28px var(--pad);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  mix-blend-mode: multiply;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+}
+.nav-logo-text {
+  font-family: var(--sans);
+  font-weight: 200;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+}
+.nav-logo-text span {
+  color: var(--ink-mid);
+}
+
+.nav-mark svg {
+  display: block;
+}
+
+.nav-links {
+  display: flex;
+  gap: 36px;
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mid);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--ink); }
+
+/* ─── hero ─── */
+#home {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 120px var(--pad) 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-mark {
+  position: absolute;
+  right: clamp(40px, 8vw, 140px);
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+  animation: fade-in 1.8s ease 0.3s forwards;
+}
+
+.hero-mark svg circle {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+}
+.hero-mark svg circle:nth-child(1) { animation: draw-ring 1.4s cubic-bezier(0.4,0,0.2,1) 0.6s forwards; }
+.hero-mark svg circle:nth-child(2) { animation: draw-ring 1.6s cubic-bezier(0.4,0,0.2,1) 0.9s forwards; }
+.hero-mark svg circle:nth-child(3) { animation: draw-ring 2.0s cubic-bezier(0.4,0,0.2,1) 1.2s forwards; }
+
+@keyframes draw-ring {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes fade-in {
+  to { opacity: 1; }
+}
+
+.hero-content {
+  max-width: 640px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-eyebrow {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-mid);
+  margin-bottom: 32px;
+  opacity: 0;
+  animation: rise 1s ease 0.2s forwards;
+}
+
+.hero-headline {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(42px, 6vw, 82px);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: rise 1s ease 0.45s forwards;
+}
+
+.hero-headline em {
+  font-style: italic;
+  color: var(--ink-mid);
+}
+
+.hero-sub {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(15px, 1.5vw, 18px);
+  line-height: 1.75;
+  color: var(--ink-mid);
+  max-width: 480px;
+  margin-bottom: 52px;
+  opacity: 0;
+  animation: rise 1s ease 0.65s forwards;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  padding-bottom: 2px;
+  border-bottom: 0.5px solid var(--ink);
+  transition: gap 0.3s, color 0.3s;
+  opacity: 0;
+  animation: rise 1s ease 0.85s forwards;
+}
+.hero-cta:hover { gap: 20px; color: var(--ink-mid); }
+.hero-cta::after { content: '→'; font-size: 14px; }
+
+.hero-clients {
+  position: absolute;
+  bottom: 48px;
+  left: var(--pad);
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  opacity: 0;
+  animation: rise 1s ease 1.2s forwards;
+}
+.hero-clients-label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.hero-clients-list {
+  display: flex;
+  gap: 24px;
+}
+.hero-clients-list span {
+  font-family: var(--sans);
+  font-weight: 200;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── section shared ─── */
+section {
+  padding: clamp(80px, 12vh, 160px) var(--pad);
+  border-top: 0.5px solid var(--rule);
+}
+
+.section-number {
+  font-family: var(--sans);
+  font-weight: 200;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 64px;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── approach ─── */
+#approach .inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px clamp(40px, 6vw, 120px);
+  max-width: var(--max);
+}
+
+.approach-headline {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(36px, 4vw, 58px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  grid-column: 1 / -1;
+}
+.approach-headline em { font-style: italic; color: var(--ink-mid); }
+
+.approach-col p {
+  font-size: clamp(15px, 1.4vw, 17px);
+  line-height: 1.85;
+  color: var(--ink-mid);
+  margin-bottom: 24px;
+}
+.approach-col p strong {
+  font-weight: 400;
+  color: var(--ink);
+}
+
+.principles-grid {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-top: 0.5px solid var(--rule);
+  margin-top: 40px;
+}
+
+.principle-item {
+  padding: 36px 28px 36px 0;
+  border-right: 0.5px solid var(--rule);
+}
+.principle-item:last-child { border-right: none; }
+
+.principle-num {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+  margin-bottom: 16px;
+}
+.principle-name {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.2;
+  margin-bottom: 12px;
+  color: var(--ink);
+}
+.principle-desc {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ink-mid);
+  font-weight: 300;
+}
+
+/* ─── about ─── */
+#about .inner {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: clamp(40px, 6vw, 120px);
+  max-width: var(--max);
+  align-items: start;
+}
+
+.about-left {}
+
+.about-headline {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(36px, 4vw, 54px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin-bottom: 40px;
+}
+.about-headline em { font-style: italic; color: var(--ink-mid); }
+
+.about-bio p {
+  font-size: clamp(15px, 1.4vw, 17px);
+  line-height: 1.85;
+  color: var(--ink-mid);
+  margin-bottom: 20px;
+}
+.about-bio p strong { font-weight: 400; color: var(--ink); }
+
+.about-credentials {
+  margin-top: 52px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.credential {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 16px 0;
+  border-bottom: 0.5px solid var(--rule);
+}
+.credential-name {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 14px;
+  color: var(--ink);
+}
+.credential-detail {
+  font-family: var(--sans);
+  font-weight: 200;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--ink-faint);
+}
+
+.about-right {
+  padding-top: 16px;
+}
+
+.pull-quote {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(22px, 2.5vw, 32px);
+  line-height: 1.45;
+  color: var(--ink);
+  border-left: 1px solid var(--ink-faint);
+  padding-left: 36px;
+  margin-bottom: 48px;
+}
+
+.method-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.method-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 18px 0;
+  border-bottom: 0.5px solid var(--rule);
+  font-size: 14px;
+  color: var(--ink-mid);
+  font-weight: 300;
+}
+.method-list li::before {
+  content: '—';
+  color: var(--ink-faint);
+  flex-shrink: 0;
+}
+
+/* ─── contact ─── */
+#contact .inner {
+  max-width: 680px;
+}
+
+.contact-headline {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(38px, 5vw, 68px);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  margin-bottom: 32px;
+}
+.contact-headline em { font-style: italic; color: var(--ink-mid); }
+
+.contact-intro {
+  font-size: clamp(15px, 1.4vw, 17px);
+  line-height: 1.85;
+  color: var(--ink-mid);
+  margin-bottom: 52px;
+  max-width: 520px;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-bottom: 0.5px solid var(--rule);
+  padding: 20px 0;
+}
+.field:first-child { border-top: 0.5px solid var(--rule); }
+
+.field label {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  font-weight: 300;
+}
+.field input,
+.field textarea,
+.field select {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 16px;
+  color: var(--ink);
+  padding: 0;
+  resize: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.field input::placeholder,
+.field textarea::placeholder {
+  color: var(--ink-faint);
+}
+.field textarea { min-height: 80px; }
+.field select { cursor: pointer; color: var(--ink); }
+.field select option { background: var(--parchment); }
+
+.form-submit {
+  margin-top: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0 0 2px;
+  border-bottom: 0.5px solid var(--ink);
+  transition: gap 0.3s, opacity 0.3s;
+}
+.form-submit:hover { gap: 22px; opacity: 0.6; }
+.form-submit::after { content: '→'; font-size: 15px; }
+
+/* ─── footer ─── */
+footer {
+  padding: 48px var(--pad);
+  border-top: 0.5px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.footer-text {
+  font-size: 11px;
+  font-weight: 200;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+}
+.footer-copy {
+  font-size: 11px;
+  font-weight: 200;
+  color: var(--ink-faint);
+  letter-spacing: 0.04em;
+}
+
+/* ─── mobile ─── */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hero-mark { opacity: 0.08; right: -20px; }
+  .hero-clients { flex-direction: column; align-items: flex-start; gap: 12px; }
+  #approach .inner { grid-template-columns: 1fr; gap: 40px; }
+  .principles-grid { grid-template-columns: 1fr 1fr; }
+  #about .inner { grid-template-columns: 1fr; }
+  footer { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 480px) {
+  .principles-grid { grid-template-columns: 1fr; }
+  .principle-item { border-right: none; border-bottom: 0.5px solid var(--rule); }
+}
+
+/* ─── form state ─── */
+.form-success {
+  display: none;
+  padding: 32px 0;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 22px;
+  color: var(--ink-mid);
+  line-height: 1.5;
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <a href="#home" class="nav-logo">
+    <div class="nav-mark">
+      <svg width="28" height="28" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="32" cy="32" r="6"    stroke="#1a1714" stroke-width="2"/>
+        <circle cx="32" cy="32" r="13.5" stroke="#1a1714" stroke-width="1.25"/>
+        <circle cx="32" cy="32" r="20"   stroke="#1a1714" stroke-width="0.3"/>
+      </svg>
+    </div>
+    <span class="nav-logo-text">firstprinciples<span> · team</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#approach">Approach</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section id="home">
+
+  <div class="hero-mark">
+    <svg width="clamp(240px, 30vw, 420px)" height="clamp(240px, 30vw, 420px)"
+         style="width:clamp(240px,30vw,420px);height:clamp(240px,30vw,420px)"
+         viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="32" cy="32" r="6"    stroke="#1a1714" stroke-width="0.5"  stroke-dasharray="400" stroke-dashoffset="400"/>
+      <circle cx="32" cy="32" r="13.5" stroke="#1a1714" stroke-width="0.35" stroke-dasharray="400" stroke-dashoffset="400"/>
+      <circle cx="32" cy="32" r="20"   stroke="#1a1714" stroke-width="0.12" stroke-dasharray="400" stroke-dashoffset="400"/>
+    </svg>
+  </div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">Leadership Advisory</p>
+    <h1 class="hero-headline">
+      Most interventions<br>
+      work at the <em>surface.</em><br>
+      We work below it.
+    </h1>
+    <p class="hero-sub">
+      firstprinciples.team partners with leadership teams 
+      navigating complexity — not to optimize existing patterns, 
+      but to reveal and restructure the invisible dynamics 
+      underneath them.
+    </p>
+    <a href="#approach" class="hero-cta">Our approach</a>
+  </div>
+
+  <div class="hero-clients">
+    <span class="hero-clients-label">Clients include</span>
+    <div class="hero-clients-list">
+      <span>Airbnb</span>
+      <span>LinkedIn</span>
+      <span>McKnight Foundation</span>
+      <span>Ford Foundation</span>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══ APPROACH ══ -->
+<section id="approach">
+  <div class="inner">
+
+    <p class="section-number reveal">01 — Approach</p>
+
+    <h2 class="approach-headline reveal">
+      The patterns that limit teams<br>
+      are rarely visible to the teams<br>
+      <em>inside them.</em>
+    </h2>
+
+    <div class="approach-col reveal">
+      <p>
+        Conventional leadership development works on skills and behaviors — 
+        the things you can see and measure. <strong>We work on the layer underneath:</strong> 
+        the relational field, the status dynamics, the nervous system responses 
+        that shape how a team thinks before it knows it's thinking.
+      </p>
+      <p>
+        Our methodology integrates somatic intelligence, Enneagram typology, 
+        relational coordination theory, and systems thinking into a single coherent 
+        practice. Not as a toolkit. As a lens.
+      </p>
+    </div>
+
+    <div class="approach-col reveal">
+      <p>
+        We call this operating below the line. <strong>Most teams live above it</strong> — 
+        performing, managing impressions, solving the presenting problem. 
+        Below the line is where the actual work lives: the fears underneath 
+        the conflict, the identity beneath the strategy, the body that knows 
+        before the mind does.
+      </p>
+      <p>
+        Our clients are leadership teams in tech, media, and impact sectors 
+        who sense that something structural is getting in the way — and are 
+        ready to find out what it actually is.
+      </p>
+    </div>
+
+    <div class="principles-grid reveal">
+      <div class="principle-item">
+        <p class="principle-num">C</p>
+        <p class="principle-name">Clarify</p>
+        <p class="principle-desc">Surface what's actually happening beneath the presenting dynamic.</p>
+      </div>
+      <div class="principle-item">
+        <p class="principle-num">O</p>
+        <p class="principle-name">Orient</p>
+        <p class="principle-desc">Locate the team within the larger system it's embedded in.</p>
+      </div>
+      <div class="principle-item">
+        <p class="principle-num">R</p>
+        <p class="principle-name">Relate</p>
+        <p class="principle-desc">Build the relational field that makes new patterns possible.</p>
+      </div>
+      <div class="principle-item">
+        <p class="principle-num">E</p>
+        <p class="principle-name">Embed</p>
+        <p class="principle-desc">Translate insight into structure that survives the room.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ ABOUT ══ -->
+<section id="about">
+  <div class="inner">
+
+    <div class="about-left reveal">
+      <p class="section-number">02 — About</p>
+      <h2 class="about-headline">
+        Allan Silva —<br>
+        <em>executive coach,<br>
+        leadership consultant.</em>
+      </h2>
+
+      <div class="about-bio">
+        <p>
+          Allan Silva is the founder of <strong>firstprinciples.team</strong>, 
+          a boutique leadership advisory practice based in Oakland, CA. 
+          He works with newly forming and existing leadership teams at the 
+          intersection of tech, media, and social impact.
+        </p>
+        <p>
+          His practice is built on two decades of work in organizational psychology, 
+          somatic healing, and leadership development — synthesized into a methodology 
+          that operates at the level of the relational field, not just the individuals within it.
+        </p>
+        <p>
+          Allan holds an Integral Coaching certification from New Ventures West and 
+          advanced training in Relational Somatic Healing. He is a certified Enneagram 
+          practitioner and practitioner of Chen Style Taijiquan.
+        </p>
+      </div>
+
+      <div class="about-credentials">
+        <div class="credential">
+          <span class="credential-name">New Ventures West</span>
+          <span class="credential-detail">Integral Coaching Certification</span>
+        </div>
+        <div class="credential">
+          <span class="credential-name">Relational Somatic Healing</span>
+          <span class="credential-detail">Character Map · Foundations · Relational Touch</span>
+        </div>
+        <div class="credential">
+          <span class="credential-name">Enneagram</span>
+          <span class="credential-detail">Certified Practitioner</span>
+        </div>
+        <div class="credential">
+          <span class="credential-name">Chen Style Taijiquan</span>
+          <span class="credential-detail">Daily Practice</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-right reveal">
+      <blockquote class="pull-quote">
+        "The principle is invisible. You only ever see its effects. That's 
+        what we're trained to follow — back to the source."
+      </blockquote>
+
+      <ul class="method-list">
+        <li>Enneagram typology &amp; team dynamics</li>
+        <li>Drama Triangle / Empowerment Triangle</li>
+        <li>Relational coordination theory</li>
+        <li>Somatic and polyvagal intelligence</li>
+        <li>C.O.R.E. Framework</li>
+        <li>Tensegrity as organizational metaphor</li>
+        <li>STAGES developmental framework</li>
+        <li>Conscious leadership &amp; below-the-line work</li>
+        <li>360 feedback &amp; individual development</li>
+        <li>Leadership team offsites &amp; retreats</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ CONTACT ══ -->
+<section id="contact">
+  <div class="inner reveal">
+
+    <p class="section-number">03 — Contact</p>
+
+    <h2 class="contact-headline">
+      Start with<br>
+      <em>a conversation.</em>
+    </h2>
+
+    <p class="contact-intro">
+      If you're a leadership team sensing that something structural is getting in the way — 
+      or an individual leader ready to work at a different depth — we'd like to hear from you.
+    </p>
+
+    <form class="contact-form" id="contactForm">
+      <div class="field">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Your name" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="org">Organization</label>
+        <input type="text" id="org" name="org" placeholder="Where you work" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="your@email.com" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="interest">What brings you here</label>
+        <select id="interest" name="interest">
+          <option value="" disabled selected style="color:#c4bfb8">Select one</option>
+          <option value="team">Leadership team work</option>
+          <option value="individual">Individual executive coaching</option>
+          <option value="offsite">Offsite / retreat design</option>
+          <option value="360">360 feedback &amp; development</option>
+          <option value="other">Something else</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="message">Tell us more</label>
+        <textarea id="message" name="message" placeholder="What's the situation? What's getting in the way?"></textarea>
+      </div>
+      <button type="submit" class="form-submit">Send</button>
+    </form>
+
+    <div class="form-success" id="formSuccess">
+      Thank you. We'll be in touch within a few days.
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-logo">
+    <svg width="20" height="20" viewBox="0 0 64 64" fill="none">
+      <circle cx="32" cy="32" r="6"    stroke="#c4bfb8" stroke-width="2"/>
+      <circle cx="32" cy="32" r="13.5" stroke="#c4bfb8" stroke-width="1.25"/>
+      <circle cx="32" cy="32" r="20"   stroke="#c4bfb8" stroke-width="0.3"/>
+    </svg>
+    <span class="footer-text" style="margin-left:8px">firstprinciples<span style="color:#dedad3"> · team</span></span>
+  </div>
+  <span class="footer-copy">© 2025 ASILVA LLC · Oakland, CA</span>
+</footer>
+
+<script>
+// ── scroll reveal ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      // stagger children if multiple
+      const children = e.target.querySelectorAll('.reveal');
+      children.forEach((c, i) => {
+        setTimeout(() => c.classList.add('visible'), i * 120);
+      });
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── form ──
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  this.style.display = 'none';
+  document.getElementById('formSuccess').style.display = 'block';
+});
+
+// ── nav scroll effect ──
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  if (window.scrollY > 60) {
+    nav.style.background = 'rgba(245,242,236,0.92)';
+    nav.style.backdropFilter = 'blur(12px)';
+    nav.style.mixBlendMode = 'normal';
+    nav.style.borderBottom = '0.5px solid #dedad3';
+    nav.style.transition = 'all 0.4s ease';
+  } else {
+    nav.style.background = 'transparent';
+    nav.style.backdropFilter = 'none';
+    nav.style.borderBottom = 'none';
+    nav.style.mixBlendMode = 'multiply';
+  }
+});
+</script>
+
+</body>
+</html>
