@@ -348,21 +348,9 @@ footer {
     </h1>
     <div class="hero-mark">
       <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="100" cy="100" stroke="#1a1714">
-          <animate attributeName="r" from="4" to="20" dur="1.8s" begin="0.2s" fill="freeze" calcMode="spline" keySplines="0.4 0 0.2 1" keyTimes="0;1"/>
-          <animate attributeName="stroke-opacity" values="0;0.5;0.9" keyTimes="0;0.4;1" dur="1.8s" begin="0.2s" fill="freeze"/>
-          <animate attributeName="stroke-width" from="2" to="1.5" dur="1.8s" begin="0.2s" fill="freeze"/>
-        </circle>
-        <circle cx="100" cy="100" stroke="#1a1714">
-          <animate attributeName="r" from="4" to="60" dur="1.8s" begin="0.6s" fill="freeze" calcMode="spline" keySplines="0.4 0 0.2 1" keyTimes="0;1"/>
-          <animate attributeName="stroke-opacity" values="0;0.3;0.6" keyTimes="0;0.4;1" dur="1.8s" begin="0.6s" fill="freeze"/>
-          <animate attributeName="stroke-width" from="1.5" to="0.8" dur="1.8s" begin="0.6s" fill="freeze"/>
-        </circle>
-        <circle cx="100" cy="100" stroke="#1a1714">
-          <animate attributeName="r" from="4" to="95" dur="1.8s" begin="1.0s" fill="freeze" calcMode="spline" keySplines="0.4 0 0.2 1" keyTimes="0;1"/>
-          <animate attributeName="stroke-opacity" values="0;0.2;0.5" keyTimes="0;0.4;1" dur="1.8s" begin="1.0s" fill="freeze"/>
-          <animate attributeName="stroke-width" from="1" to="0.3" dur="1.8s" begin="1.0s" fill="freeze"/>
-        </circle>
+        <circle cx="100" cy="100" r="20"  stroke="#1a1714" stroke-width="1.5" class="ring1"/>
+        <circle cx="100" cy="100" r="60"  stroke="#1a1714" stroke-width="0.8" class="ring2"/>
+        <circle cx="100" cy="100" r="95"  stroke="#1a1714" stroke-width="0.3" class="ring3"/>
       </svg>
     </div>
   </div>
@@ -440,11 +428,13 @@ footer {
     </svg>
     <span class="footer-text">firstprinciples<span style="color:#dedad3"> · team</span></span>
   </div>
+  <span class="footer-copy">© 2025 ASILVA LLC · Oakland, CA</span>
 </footer>
 
 <!-- CLIENTS OVERLAY -->
 <div id="clients-page">
   <button class="clients-page-close" id="closeClients">← Back</button>
+  <h2 class="clients-page-headline">Rooms<br><em>we've been in.</em></h2>
   <div class="clients-grid">
     <div class="client-item"><span class="client-name">Airbnb</span><span class="client-sector">Technology</span></div>
     <div class="client-item"><span class="client-name">Apple</span><span class="client-sector">Technology</span></div>
