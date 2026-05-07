@@ -125,25 +125,7 @@ nav {
   margin-bottom: 20px;
 }
 .hero-body p strong { font-weight: 400; color: var(--ink); }
-.ring1 { animation: ripple1 1.8s ease-out 0.2s both; }
-.ring2 { animation: ripple2 1.8s ease-out 0.6s both; }
-.ring3 { animation: ripple3 1.8s ease-out 1.0s both; }
 
-@keyframes ripple1 {
-  0%   { r: 4;  stroke-opacity: 0; stroke-width: 2; }
-  40%  { stroke-opacity: 0.5; }
-  100% { r: 20; stroke-opacity: 0.9; stroke-width: 1.5; }
-}
-@keyframes ripple2 {
-  0%   { r: 4;  stroke-opacity: 0; stroke-width: 1.5; }
-  40%  { stroke-opacity: 0.3; }
-  100% { r: 60; stroke-opacity: 0.6; stroke-width: 0.8; }
-}
-@keyframes ripple3 {
-  0%   { r: 4;  stroke-opacity: 0; stroke-width: 1; }
-  40%  { stroke-opacity: 0.2; }
-  100% { r: 95; stroke-opacity: 0.5; stroke-width: 0.3; }
-}
 
 /* shared */
 section {
@@ -363,9 +345,21 @@ footer {
     </h1>
     <div class="hero-mark">
       <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="100" cy="100" r="4" stroke="#1a1714" class="ring1"/>
-        <circle cx="100" cy="100" r="4" stroke="#1a1714" class="ring2"/>
-        <circle cx="100" cy="100" r="4" stroke="#1a1714" class="ring3"/>
+        <circle cx="100" cy="100" stroke="#1a1714">
+          <animate attributeName="r" from="4" to="20" dur="1.8s" begin="0.2s" fill="freeze" calcMode="spline" keySplines="0.4 0 0.2 1" keyTimes="0;1"/>
+          <animate attributeName="stroke-opacity" values="0;0.5;0.9" keyTimes="0;0.4;1" dur="1.8s" begin="0.2s" fill="freeze"/>
+          <animate attributeName="stroke-width" from="2" to="1.5" dur="1.8s" begin="0.2s" fill="freeze"/>
+        </circle>
+        <circle cx="100" cy="100" stroke="#1a1714">
+          <animate attributeName="r" from="4" to="60" dur="1.8s" begin="0.6s" fill="freeze" calcMode="spline" keySplines="0.4 0 0.2 1" keyTimes="0;1"/>
+          <animate attributeName="stroke-opacity" values="0;0.3;0.6" keyTimes="0;0.4;1" dur="1.8s" begin="0.6s" fill="freeze"/>
+          <animate attributeName="stroke-width" from="1.5" to="0.8" dur="1.8s" begin="0.6s" fill="freeze"/>
+        </circle>
+        <circle cx="100" cy="100" stroke="#1a1714">
+          <animate attributeName="r" from="4" to="95" dur="1.8s" begin="1.0s" fill="freeze" calcMode="spline" keySplines="0.4 0 0.2 1" keyTimes="0;1"/>
+          <animate attributeName="stroke-opacity" values="0;0.2;0.5" keyTimes="0;0.4;1" dur="1.8s" begin="1.0s" fill="freeze"/>
+          <animate attributeName="stroke-width" from="1" to="0.3" dur="1.8s" begin="1.0s" fill="freeze"/>
+        </circle>
       </svg>
     </div>
   </div>
