@@ -6,7 +6,7 @@
 <title>firstprinciples · team</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none'><circle cx='32' cy='32' r='6' stroke='%231a1916' stroke-width='2'/><circle cx='32' cy='32' r='13.5' stroke='%231a1916' stroke-width='1.25'/><circle cx='32' cy='32' r='20' stroke='%231a1916' stroke-width='0.5'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@200;300;400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -60,6 +60,14 @@ nav {
 .nav-logo-mark span:nth-child(1) { width: 6px;  height: 6px;  border-width: 1.2px; }
 .nav-logo-mark span:nth-child(2) { width: 14px; height: 14px; border-width: 0.8px; opacity: 0.6; }
 .nav-logo-mark span:nth-child(3) { width: 22px; height: 22px; border-width: 0.4px; opacity: 0.3; }
+.nav-fp {
+  font-family: 'DM Mono', 'Courier New', monospace;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+.nav-bracket { color: var(--gold); }
 .nav-logo-text { font-family: var(--sans); font-weight: 200; font-size: 13px; letter-spacing: 0.08em; color: var(--ink); }
 .nav-logo-text span { color: var(--ink-mid); }
 .nav-links { display: flex; gap: 40px; list-style: none; }
@@ -244,10 +252,8 @@ footer { padding: 40px var(--pad); border-top: 1px solid var(--rule); display: f
 <!-- NAV -->
 <nav>
   <a href="#home" class="nav-logo">
-    <div class="nav-logo-mark">
-      <span></span><span></span><span></span>
-    </div>
     <span class="nav-logo-text">firstprinciples<span> · team</span></span>
+    <span class="nav-fp"><span class="nav-bracket">&lt;</span>fp<span class="nav-bracket">&gt;</span></span>
   </a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
@@ -367,8 +373,8 @@ footer { padding: 40px var(--pad); border-top: 1px solid var(--rule); display: f
 
 <!-- FOOTER -->
 <footer>
-  <span class="footer-text">firstprinciples · team</span>
-  <span class="footer-text">© 2025 ASILVA LLC · Oakland, CA</span>
+  <span class="footer-text">firstprinciples.team <span style="color:var(--gold)">&lt;</span>fp<span style="color:var(--gold)">&gt;</span></span>
+
 </footer>
 
 <!-- CLIENTS OVERLAY -->
