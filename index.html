@@ -14,9 +14,9 @@ html { scroll-behavior: smooth; }
 :root {
   --bg:        #f0ede6;
   --ink:       #1a1916;
-  --ink-mid:   rgba(26,25,22,0.55);
-  --ink-faint: rgba(26,25,22,0.22);
-  --rule:      rgba(26,25,22,0.1);
+  --ink-mid:   #4a4742;
+  --ink-faint: #9a9690;
+  --rule:      #d8d4cc;
   --accent:    #7a5c38;
   --gold:      #b8956a;
   --serif:     'Cormorant Garamond', Georgia, serif;
@@ -177,7 +177,7 @@ section { padding: clamp(80px, 10vh, 120px) var(--pad); border-top: 1px solid va
 .client-teaser-link::after { content: '→'; }
 
 /* ENGAGE */
-#engage { background: #ebe8e0; }
+#engage { background: var(--bg); }
 .engage-list { list-style: none; border-top: 1px solid var(--rule); }
 .engage-item { display: grid; grid-template-columns: 2.5rem 1fr; gap: 0 1.4rem; padding: 2rem 0; border-bottom: 1px solid var(--rule); }
 .engage-num { font-family: var(--sans); font-size: 10px; letter-spacing: 0.1em; color: var(--ink-faint); padding-top: 4px; }
@@ -208,8 +208,9 @@ section { padding: clamp(80px, 10vh, 120px) var(--pad); border-top: 1px solid va
 .field input::placeholder, .field textarea::placeholder { color: var(--ink-faint); }
 .field textarea { min-height: 80px; }
 .field select { cursor: pointer; }
-.form-submit { margin-top: 40px; font-family: var(--sans); font-weight: 300; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bg); background: var(--ink); border: none; cursor: pointer; padding: 14px 32px; transition: background 0.3s; }
-.form-submit:hover { background: var(--accent); }
+.form-submit { margin-top: 40px; display: inline-flex; align-items: center; gap: 10px; font-family: var(--sans); font-weight: 300; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); background: transparent; border: none; border-bottom: 0.5px solid var(--ink); cursor: pointer; padding: 0 0 2px; transition: gap 0.3s, color 0.3s; }
+.form-submit:hover { gap: 16px; color: var(--accent); border-bottom-color: var(--accent); }
+.form-submit::after { content: '→'; font-size: 14px; }
 .form-success { display: none; padding: 32px 0; font-family: var(--serif); font-style: italic; font-size: 22px; color: var(--ink-mid); line-height: 1.5; }
 
 /* FOOTER */
@@ -336,13 +337,13 @@ footer { padding: 40px var(--pad); border-top: 1px solid var(--rule); display: f
   <div class="inner reveal">
     <p class="section-eyebrow">Contact</p>
     <h2 class="contact-headline">Start with<br><em>a conversation.</em></h2>
-    <form id="contactForm">
-      <div class="field"><label>Name</label><input type="text" placeholder="Your name" autocomplete="off"></div>
-      <div class="field"><label>Organization</label><input type="text" placeholder="Where you work" autocomplete="off"></div>
-      <div class="field"><label>Email</label><input type="email" placeholder="your@email.com" autocomplete="off"></div>
+    <form id="contactForm" action="https://formspree.io/f/mqendgop" method="POST">
+      <div class="field"><label>Name</label><input type="text" name="name" placeholder="Your name" autocomplete="off"></div>
+      <div class="field"><label>Organization</label><input type="text" name="organization" placeholder="Where you work" autocomplete="off"></div>
+      <div class="field"><label>Email</label><input type="email" name="email" placeholder="your@email.com" autocomplete="off"></div>
       <div class="field">
         <label>What brings you here</label>
-        <select>
+        <select name="interest">
           <option value="" disabled selected>Select one</option>
           <option>CEO Advisory</option>
           <option>Leadership team work</option>
@@ -351,7 +352,7 @@ footer { padding: 40px var(--pad); border-top: 1px solid var(--rule); display: f
           <option>Something else</option>
         </select>
       </div>
-      <div class="field"><label>Tell us more</label><textarea placeholder="What's the situation? What's getting in the way?"></textarea></div>
+      <div class="field"><label>Tell us more</label><textarea name="message" placeholder="What's the situation? What's getting in the way?"></textarea></div>
       <button type="submit" class="form-submit">Send</button>
     </form>
     <div class="form-success" id="formSuccess">Thank you. We'll be in touch within a few days.</div>
@@ -367,7 +368,7 @@ footer { padding: 40px var(--pad); border-top: 1px solid var(--rule); display: f
 <!-- CLIENTS OVERLAY -->
 <div id="clients-page">
   <button class="clients-page-close" id="closeClients">← Back</button>
-  <h2 class="clients-page-headline">Rooms<br><em>we've been in.</em></h2>
+
   <div class="clients-grid">
     <div class="client-item"><span class="client-name">Airbnb</span><span class="client-sector">Technology</span></div>
     <div class="client-item"><span class="client-name">Apple</span><span class="client-sector">Technology</span></div>
@@ -400,10 +401,19 @@ const obs = new IntersectionObserver(entries => {
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-document.getElementById('contactForm').addEventListener('submit', function(e) {
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
   e.preventDefault();
-  this.style.display = 'none';
-  document.getElementById('formSuccess').style.display = 'block';
+  const form = this;
+  const data = new FormData(form);
+  try {
+    const res = await fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
+    if (res.ok) {
+      form.style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+    }
+  } catch(err) {
+    alert('Something went wrong. Please try again.');
+  }
 });
 
 document.getElementById('viewAllClients').addEventListener('click', function(e) {
